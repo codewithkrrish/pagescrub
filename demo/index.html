@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pagescrub demo — a deliberately annoying article</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Georgia, serif; color: #222; background: #fafafa; }
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: #111; color: #fff; padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .site-header b { font-family: system-ui, sans-serif; letter-spacing: 1px; }
+  article { max-width: 640px; margin: 40px auto; padding: 0 20px; line-height: 1.75; }
+  article h1 { font-size: 2rem; line-height: 1.25; }
+  article p { margin: 1.2em 0; }
+  .try-box {
+    max-width: 640px; margin: 24px auto; padding: 16px 20px;
+    background: #fff8e1; border: 1px solid #f0d878; border-radius: 8px;
+    font-family: system-ui, sans-serif; font-size: 15px;
+  }
+  .try-box button {
+    font-size: 15px; padding: 10px 18px; border: 0; border-radius: 999px;
+    background: #111; color: #fff; cursor: pointer; margin-top: 8px;
+  }
+  .cookie-consent {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
+    background: #1c1c1c; color: #eee; padding: 18px 24px;
+    font-family: system-ui, sans-serif; font-size: 14px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  }
+  .cookie-consent button { padding: 8px 16px; border-radius: 6px; border: 0; cursor: pointer; }
+  .newsletter-popup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 200;
+    background: #fff; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    padding: 32px; width: 340px; text-align: center; font-family: system-ui, sans-serif;
+    display: none;
+  }
+  .newsletter-popup.show { display: block; }
+  .newsletter-popup input { width: 100%; padding: 10px; margin: 12px 0; border: 1px solid #ccc; border-radius: 6px; }
+  .share-bar {
+    position: fixed; left: 12px; top: 40%; z-index: 60;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .share-bar span {
+    width: 40px; height: 40px; border-radius: 50%; background: #ddd;
+    display: flex; align-items: center; justify-content: center;
+    font-family: system-ui, sans-serif; font-size: 12px;
+  }
+  .back-to-top {
+    position: fixed; right: 16px; bottom: 90px; z-index: 60;
+    width: 44px; height: 44px; border-radius: 50%; border: 0;
+    background: #111; color: #fff; cursor: pointer; font-size: 18px;
+  }
+</style>
+</head>
+<body class="no-scroll demo-page" style="overflow: hidden">
+
+<header class="site-header">
+  <b>THE DAILY CLUTTER</b>
+  <span style="font-size:13px">Subscribe &middot; Sign in</span>
+</header>
+
+<article>
+  <h1>Why every recipe website now reads like a hostage negotiation</h1>
+  <div class="try-box">
+    <strong>Try pagescrub right here.</strong><br>
+    This page is deliberately annoying: a sticky header, a cookie wall, a
+    newsletter popup (it appears after 2 seconds), floating share buttons,
+    and scrolling is locked — just like the real thing.
+    <br>
+    <button id="try">Scrub this page</button>
+    <span style="font-size:13px; color:#666"> &nbsp;Click again to undo. Or press Esc.</span>
+  </div>
+  <p>You came for a pancake recipe. What you got instead was a fifteen-paragraph
+  memoir about somebody's grandmother, three autoplaying videos, a newsletter
+  modal, and a cookie banner with forty-two toggles. Somewhere in the middle,
+  possibly, there are pancakes.</p>
+  <p>This is not an accident. Every one of those interruptions is there because
+  it converts — a fraction of a percent of visitors click, and at web scale a
+  fraction of a percent pays salaries. The cost is pushed onto you: your time,
+  your attention, your scrolling thumb.</p>
+  <p>Reader modes help, but they live inside the browser chrome and most people
+  never find them. Bookmarklets are the older, scrappier answer: one click,
+  no install, no account, and the page just… calms down.</p>
+  <p>That's the whole idea behind pagescrub. It doesn't try to be clever about
+  extracting article text like a reader mode does — it just removes the stuff
+  that was never the article: the overlays, the sticky chrome, the scroll
+  locks. What remains is the page as the author (probably) intended it.</p>
+  <p>There are limits, of course. A paywall that withholds the text on the
+  server can't be scrubbed away — no client-side trick can fetch what was
+  never sent. And sites that re-inject popups as you scroll will need a
+  second click. Honest tools admit what they can't do.</p>
+  <p>Anyway. The pancakes: flour, eggs, milk, a pinch of salt, a hot pan.
+  You didn't need the memoir. Nobody did.</p>
+</article>
+
+<div class="cookie-consent" id="cookieWall">
+  <span>We value your privacy. We and our 1,472 partners store cookies. Please accept all of them immediately.</span>
+  <span><button>Reject all</button> <button>Accept all</button></span>
+</div>
+
+<div class="newsletter-popup" id="newsPopup">
+  <h3>Wait! Don't go!</h3>
+  <p style="font-size:14px; color:#555">Join 50,000 readers getting our newsletter. It's definitely worth your email.</p>
+  <input type="email" placeholder="you@example.com">
+  <button style="padding:10px 20px; border-radius:6px; border:0; background:#111; color:#fff; cursor:pointer">Subscribe</button>
+</div>
+
+<div class="share-bar">
+  <span>f</span><span>x</span><span>in</span><span>&#9993;</span>
+</div>
+
+<button class="back-to-top" title="back to top">&#8593;</button>
+
+<script src="../src/scrub.js"></script>
+<script>
+  // the newsletter popup shows up late, like a real one
+  setTimeout(function () {
+    document.getElementById('newsPopup').classList.add('show');
+  }, 2000);
+
+  document.getElementById('try').addEventListener('click', function () {
+    PageScrub.toggle(document);
+  });
+</script>
+</body>
+</html>
